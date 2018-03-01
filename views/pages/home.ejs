@@ -1,0 +1,115 @@
+<main>
+  <div class="columns">
+    <div class="column">
+    </div>
+    <div class="forms column is-one-half-desktop">
+      <h1 class="site-title">BASICGRAM</h1>
+      <h2 class="subtitle site-subtitle">For all your basic bitch pic needs</h2>
+      <% for (const type in messages) { %>
+        <div class="notification is-<%= type %>"><%= messages[type] %></div>
+    <% } %>
+      <div class="register">
+      <form method="POST" action="/register">
+        <div class="field">
+          <label class="label" for="username">Username</label>
+          <input class="input" type="text" name="username" placeholder="Username" required id="username" minlength="2">
+        </div>
+
+        <div class="field">
+          <label class="label" for="email">Email</label>
+          <input class="input" type="text" name="email" placeholder="Email" required id="email">
+        </div>
+
+        <div class="field">
+          <input type ="hidden" class="input" type="text" name="image" placeholder="Image Url" id="user-image-url">
+        </div>
+
+        <div class="field">
+          <label class="label" for="image">Profile Picture</label>
+          <input class="button" type="BUTTON" value="Upload Image" id="user-image-btn" name="image" onclick="userUploadImage()">
+        </div>
+
+        <div class="field">
+          <img class="hidden img-preview" src="" alt="image-preview">
+        </div>
+
+        <div class="field">
+          <label class="label" for="bio">Bio</label>
+          <textarea class="input" type="password" name="bio" id="bio" placeholder="Write about yourself..." maxlength="140"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="label" for="password">Password</label>
+          <input class="input" type="password" name="password" placeholder="Password" id="password" minlength="8">
+        </div>
+
+        <div class="field">
+          <label class="label" for="passwordConfirmation">Password Confirmation</label>
+          <input class="input" type="password" name="passwordConfirmation" id="passwordConfirmation" placeholder="Re-type password" minlength="8">
+        </div>
+
+
+          <div class="control">
+            <button class="button dark" name="button">Register</button>
+          </div>
+        </form>
+
+            <p>or</p>
+             <button class="loginBtn button dark" onclick="login()">Login</button>
+
+    </div>
+
+      <div class="login hidden">
+        <form method="POST" action="/login">
+          <div class="field">
+            <label class="label" for="email">Email</label>
+            <input class="input" type="text" name="email" placeholder="Email" required>
+          </div>
+
+          <div class="field">
+            <label class="label" for="password">Password</label>
+            <input class="input" type="password" name="password" placeholder="Password">
+          </div>
+          <div class="control">
+            <button class="button dark" name="button">Login</button>
+          </div>
+        </form>
+        <p>or</p>
+         <button class="registerBtn button dark" onclick="register()">Register</button>
+      </div>
+    </div>
+</main>
+<script>
+const loginBtn = document.getElementsByClassName('loginBtn')[0];
+const registerForm = document.getElementsByClassName('register')[0];
+const loginForm = document.getElementsByClassName('login')[0];
+
+const regiterBtn = document.getElementsByClassName('registerBtn')[0];
+
+function register() {
+  loginForm.style.display = 'none';
+  registerForm.style.display = 'block';
+}
+function login() {
+  registerForm.style.display = 'none';
+  loginForm.style.display = 'block';
+}
+
+const userImageUrl = document.getElementById('user-image-url');
+const userImagePreview = document.getElementsByClassName('img-preview')[0];
+
+function userUploadImage() {
+    const client = filestack.init('Ad6X3pheT3e7XqLhKSYWAz');
+    client.pick({
+      accept: 'image/*',
+      maxFiles: 1,
+      transformations: { crop: { force: true, aspectRatio: 4/4  } }
+    })
+      .then(function(result) {
+        const url = result.filesUploaded[0].url;
+        userImagePreview.style.display = "block";
+        userImagePreview.src = url;
+        userImageUrl.value = url;
+      });
+  }
+</script>

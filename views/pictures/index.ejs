@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="columns is-multiline">
+    <% pictures.forEach(picture => { %>
+      <div class="column is-one-third is-full-mobile">
+        <a href="/pictures/<%= picture._id %>">
+          <div class="card">
+            <div class="card-image" style="background-image:url(<%= picture.image %>)"></div>
+        </a>
+          <div class="level">
+            <div class="level-left">
+                <% if (picture.likes.length ===  1) { %>
+                <p class="level-item"><i class="fas fa-heart"></i><%= picture.likes.length %> like</p>
+                <% } else { %>
+                <p class="level-item"><i class="fas fa-heart"></i><%= picture.likes.length %> likes</p>
+                <% } %>
+            </div>
+            <div class="level-right">
+              <% if (picture.user) { %>
+                <p class="level-item"><a href="/users/<%= picture.user._id %>"><%= picture.user.username %></a></p>
+              <% } %>
+            </div>
+          </div>
+          </div>
+      </div>
+    <% }); %>
+  </div>
+</div>

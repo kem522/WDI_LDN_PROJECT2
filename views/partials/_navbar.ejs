@@ -1,0 +1,30 @@
+<div class="container">
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <ul class="navbar-start">
+        <li class="navbar-item"><a href="/"><i class="fas fa-camera-retro"></i></a></li>
+      </ul>
+      <div class="navbar-burger" data-target="navMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    <div class="navbar-menu" id="navMenu">
+      <ul class="navbar-end">
+        <% if (locals.isAuthenticated) { %>
+          <li class="navbar-item img">
+              <img src="<%= locals.currentUser.image %>" alt="profile pic">
+            <p>Hi, <%= locals.currentUser.username %>!</p>
+          <li class="navbar-item"><a href="/pictures">Explore</a></li>
+          <li class="navbar-item"><a href="/following">Your Feed</a></li>
+          <li class="navbar-item"><a href="/users/<%= locals.currentUser._id %>">Profile</a></li>
+          <li class="navbar-item"><a href="/pictures/new">New Post</a></li>
+          <li class="navbar-item"><a href="/logout">Logout</a></li>
+        <% } else { %>
+          <li class="navbar-item"><a href="/pictures">Explore</a></li>
+        <% } %>
+      </ul>
+    </div>
+  </nav>
+</div>

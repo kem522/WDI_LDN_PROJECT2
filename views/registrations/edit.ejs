@@ -1,0 +1,57 @@
+<div class="container">
+  <h1>Edit Your Profile</h1>
+  <form method="POST" action="/users/<%= user._id%>">
+    <input type="hidden" name="_method" value="PUT">
+    <div class="field">
+      <label class="label" for="username">Username</label>
+      <input class="input" type="text" name="username" placeholder="Username" required id="username" minlength="2"  value="<%= user.username %>">
+    </div>
+
+    <div class="field">
+      <input type ="hidden" class="input" type="text" name="image" placeholder="Image Url" id="user-image-url" value="<%= user.image %>">
+    </div>
+
+    <div class="field">
+      <label class="label" for="image">Upload Image</label>
+      <input class="button" type="BUTTON" value="Upload Image" id="user-image-btn" name="image" onclick="userUploadImage()">
+    </div>
+
+    <div class="field">
+      <img class="hidden img-preview" src="" alt="image-preview">
+    </div>
+
+    <script>
+    const userImageUrl = document.getElementById('user-image-url');
+    const userImagePreview = document.getElementsByClassName('img-preview')[0];
+    const userImageBtn = document.getElementById('user-image-btn');
+
+    function userUploadImage() {
+      userImageBtn.addEventListener('click', () => {
+        const client = filestack.init('AQZHTyhj4TtS0a5sQdNpGz');
+        client.pick({
+          accept: 'image/*',
+          maxFiles: 1,
+          transformations: { crop: { force: true, aspectRatio: 4/4  } }
+        })
+          .then(function(result) {
+            const url = result.filesUploaded[0].url;
+            userImagePreview.style.display = "block";
+            userImagePreview.src = url;
+            userImageUrl.value = url;
+          });
+      });
+    }
+    </script>
+
+
+    <div class="field">
+      <label class="label" for="bio">Bio</label>
+      <textarea class="input" type="password" name="bio" id="bio" placeholder="Write about yourself..." maxlength="140"><%= user.bio %></textarea>
+    </div>
+
+
+    <div class="control">
+      <button class="button dark" name="button">Submit</button>
+    </div>
+  </form>
+</div>

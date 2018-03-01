@@ -1,0 +1,95 @@
+<div class="container">
+  <div class="columns">
+    <div class="column is-one-half-desktop">
+      <img src="<%= picture.image %>" alt="<%= picture.caption %>">
+      <% if (locals.isAuthenticated && picture.user && picture.user._id.equals(locals.currentUser._id)) { %>
+        <a href="/pictures/<%= picture._id %>/edit" class="button dark"><i class="fas fa-pencil-alt"></i></a>
+        <form method="POST" action="/pictures/<%= picture._id %>">
+          <input type="hidden" name="_method" value="DELETE">
+          <button class="button is-danger" name="button">Delete</button>
+        </form>
+      <% } %>
+    </div>
+    <div class="column is-one-half-desktop">
+      <div class="card">
+        <p><%= picture.caption %></p>
+        <% if (picture.location) %>
+        <p><strong><%= picture.location %></strong></p>
+        <div class="level">
+          <div class="level-right">
+            <% if (picture.user) { %>
+            <p class="level-item"><strong><a href="/users/<%= picture.user._id %>"><%= picture.user.username %></a></strong></p>
+            <% } %>
+          </div>
+          <div class="level-left">
+            <div class="level-item">
+            <% if (locals.isAuthenticated && picture.likes.some(like =>
+               locals.currentUser._id.equals(like._id))) { %>
+              <form action="/pictures/<%= picture._id %>/likes/:like._id" method="POST">
+                <input type="hidden" name="_method" value="DELETE">
+                <button class="button unlike" name="user"><i class="fas fa-heart"></i></button>
+              </form>
+              <% } else { %>
+            <form action="/pictures/<%= picture._id %>/likes" method="POST">
+              <button class="button like" name="user"><i class="far fa-heart"></i></button>
+            </form>
+            <% } %>
+
+            <% if (picture.likes.length ===  1) { %>
+            <p><%= picture.likes.length %> like</p>
+            <% } else { %>
+              <p><%= picture.likes.length %> likes</p>
+            <% } %>
+          </div>
+        </div>
+      </div>
+        <hr>
+        <ul class="comments">
+          <% picture.comments.forEach(comment => { %>
+          <li>
+            <article class="media">
+              <div class="media-left">
+                <figure class="image is-64x64">
+                  <img src="<%= comment.user.image %>"  alt="<%= comment.user.name %> profile picture">
+                </figure>
+              </div>
+
+              <div class="media-content">
+                <p><%= comment.content %></p>
+                <% if (comment.user) { %>
+                  <a href="/users/<%= comment.user._id %>"><strong><%= comment.user.username %></strong></a>
+                <% } %>
+              </div>
+
+              <div class="media-right">
+              <% if (locals.isAuthenticated && comment.isOwnedBy(locals.currentUser)) { %>
+                <form method="POST" action="/pictures/<%= picture._id %>/comments/<%= comment._id %>">
+                <input type="hidden" name="_method" value="DELETE">
+                <button class="delete" name="button">x</button>
+                </form>
+              <% } %>
+              </div>
+            </article>
+          </li>
+            <% }) %>
+          </ul>
+        <form method="POST" action="/pictures/<%= picture._id %>/comments">
+          <textarea class="textarea" name="content" placeholder="Write a comment..."></textarea>
+          <button class="button dark">Submit</button>
+        </form>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const likeBtn = document.getElementsByClassName('like')[0];
+
+  likeBtn.addEventListener('mouseenter', (e) => {
+    e.target.innerHTML = '<i class="fas fa-heart"></i>';
+  });
+
+  likeBtn.addEventListener('mouseleave', (e) => {
+    e.target.innerHTML = '<i class="far fa-heart"></i>';
+  });
+</script>

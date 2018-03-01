@@ -1,0 +1,154 @@
+main {
+  position:fixed;
+  width:100%;
+  height:100%;
+  top:0px;
+  left:0px;
+  background: url('https://images.pexels.com/photos/744780/pexels-photo-744780.jpeg?w=940&h=650&dpr=2&auto=compress&cs=tinysrgb');
+  /* background: url('https://microsites.lomography.com/lomo-instant-wide-camera/images/header3.jpg?1508772688'); */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+a {
+  color: #ffb347;
+  font-weight: bold;
+}
+
+a.navbar {
+  color: #4a4a4a;
+}
+
+
+a:hover {
+  color:#ffb347;
+}
+
+li {
+  list-style: none;
+}
+
+.button {
+  font-family: 'Rubik', sans-serif;
+  margin: 5px;
+  display: inline-block;
+}
+
+.button.is-danger {
+  background-color:#ff6961;
+}
+
+.dark {
+  background-color: #8ba9ac;
+  color: white;
+}
+
+.dark:hover {
+  background-color:#ffb347;
+}
+
+
+.label, p, a {
+  color: #4a4a4a;
+  font-family: 'Rubik', sans-serif;
+}
+
+.card {
+  padding:5px;
+  overflow:auto;
+}
+
+.card button {
+  border:none;
+}
+
+.card form {
+  display:inline;
+}
+
+.card-image {
+  width: inherit;
+  height: 350px;
+  margin: 0 auto 5px;
+  overflow:hidden;
+  background-size: cover;
+  background-position: center;
+}
+
+.hidden {
+  display: none;
+}
+
+h1 {
+  margin: 10px 0;
+  font-size: 40px;
+  font-family: 'Trirong', serif;
+}
+
+.site-title {
+  text-align:center;
+}
+
+.site-subtitle {
+  text-align: center;
+}
+
+h2 {
+  font-weight: bold;
+}
+.img-preview {
+  max-width: 500px;
+}
+
+.comments {
+  margin-bottom: 1.5rem;
+}
+
+
+.forms {
+  background-color: rgba(255,255,255,0.9);
+  float:right;
+  padding: 10px;
+  margin: 50px;
+  box-shadow: 0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1);
+}
+
+
+/* Index */
+
+.fa-heart {
+  color: pink;
+}
+
+.fa-camera-retro {
+  font-size: 40px;
+}
+
+.navbar img {
+  border-radius: 100%;
+  margin-right: 5px;
+}
+
+.notification.is-success {
+  background-color:#b4ecb4;
+  text-align: center;
+}
+
+.notification.is-danger {
+  background-color:#ff6961;
+  text-align: center;
+}
+
+@media only screen and (max-width:800px) {
+  main {
+    background-position: center;
+  }
+
+ .forms {
+   width:80%;
+ }
+}

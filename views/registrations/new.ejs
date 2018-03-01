@@ -1,0 +1,67 @@
+<div class="container">
+  <form method="POST" action="/register">
+    <div class="field">
+      <label class="label" for="username">Username</label>
+      <input class="input" type="text" name="username" placeholder="Username" required id="username" minlength="2">
+    </div>
+
+    <div class="field">
+      <label class="label" for="email">Email</label>
+      <input class="input" type="text" name="email" placeholder="Email" required id="email">
+    </div>
+
+    <div class="field">
+      <input type ="hidden" class="input" type="text" name="image" placeholder="Image Url" id="user-image-url">
+    </div>
+
+    <div class="field">
+      <label class="label" for="image">Upload Image</label>
+      <input class="button" type="BUTTON" value="Upload Image" id="user-image-btn" name="image" onclick="userUploadImage()">
+    </div>
+
+    <div class="field">
+      <img class="hidden img-preview" src="" alt="image-preview">
+    </div>
+
+    <script>
+    const userImageUrl = document.getElementById('user-image-url');
+    const userImagePreview = document.getElementsByClassName('img-preview')[0];
+
+    function userUploadImage() {
+        const client = filestack.init('Ad6X3pheT3e7XqLhKSYWAz');
+        client.pick({
+          accept: 'image/*',
+          maxFiles: 1,
+          transformations: { crop: { force: true, aspectRatio: 4/4  } }
+        })
+          .then(function(result) {
+            const url = result.filesUploaded[0].url;
+            userImagePreview.style.display = "block";
+            userImagePreview.src = url;
+            userImageUrl.value = url;
+          });
+      });
+    }
+    </script>
+
+
+    <div class="field">
+      <label class="label" for="bio">Bio</label>
+      <textarea class="input" type="password" name="bio" id="bio" placeholder="Write about yourself..." maxlength="140"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="label" for="password">Password</label>
+      <input class="input" type="password" name="password" placeholder="Password" id="password" minlength="8">
+    </div>
+
+    <div class="field">
+      <label for="passwordConfirmation">Password Confirmation</label>
+      <input class="input" type="password" name="passwordConfirmation" id="passwordConfirmation" placeholder="Re-type password" minlength="8">
+    </div>
+
+    <div class="control">
+      <button class="button dark" name="button">Submit</button>
+    </div>
+  </form>
+</div>

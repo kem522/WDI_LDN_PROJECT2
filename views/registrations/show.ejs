@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="columns is-multiline">
+    <div class="column is-one-half-desktop">
+      <img src="<%= user.image %>" alt="<%= user.username %> profile picture">
+    </div>
+    <div class="column is-one-half-desktop">
+      <div class="card">
+        <div class="content">
+          <h2 class="subtitle"><%= user.username %></h2>
+          <p class="following">Following <%= user.followedUsers.length %></p>
+          <ul class="hidden followingList">
+            <% user.followedUsers.forEach(followedUser => { %>
+              <li><a href="/users/<%= followedUser._id._id %>"><%= followedUser._id.username %></a></li>
+              <% }) %>
+          </ul>
+          <p class="followers">Followers <%= user.followers.length %></p>
+          <ul class="hidden followersList">
+            <% user.followers.forEach(follower => { %>
+              <li><a href="/users/<%= follower._id._id %>"><%= follower._id.username %></a></li>
+              <% }) %>
+          </ul>
+          <p><%= user.bio %></p>
+        </div>
+        <% if (locals.isAuthenticated && locals.currentUser._id.equals(user._id)) { %>
+        <a href="/users/<%= user._id %>/edit" class="button dark"><i class="fas fa-pencil-alt"></i></a>
+        <form method="POST" action="/users/<%= user._id %>">
+          <input type="hidden" name="_method" value="DELETE">
+          <button class="button is-danger" name="button">Delete Your Account</button>
+        </form>
+        <% } else if (locals.isAuthenticated && locals.currentUser.followedUsers.some(followedUser => followedUser.equals(user))) { %>
+        <form  method="POST" action="/users/<%= user._id %>/follow/:followedUser._id">
+          <input type="hidden" name="_method" value="DELETE">
+          <button class="button dark" name="user">Un-Follow</button>
+        </form>
+        <% } else { %>
+          <form  method="POST" action="/users/<%= user._id %>/follow">
+            <button class="button dark" name="user">Follow</button>
+          </form>
+          <% } %>
+      </div>
+    </div>
+  </div>
+    <div class="columns is-multiline">
+      <% user.pictures.forEach(picture => { %>
+      <div class="column is-one-third is-full-mobile">
+          <a href="/pictures/<%= picture._id %>">
+            <div class="card">
+                <div class="card-image" style="background-image:url(<%= picture.image %>)"></div>
+                <div class="level">
+                  <div class="level-left">
+                      <% if (picture.likes.length ===  1) { %>
+                      <p class="level-item"><i class="fas fa-heart"></i><%= picture.likes.length %> like</p>
+                      <% } else { %>
+                      <p class="level-item"><i class="fas fa-heart"></i><%= picture.likes.length %> likes</p>
+                      <% } %>
+                  </div>
+                </div>
+            </div>
+          </a>
+      </div>
+    </div>
+    <% }); %>
+  </div>

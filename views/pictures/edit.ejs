@@ -1,0 +1,57 @@
+<div class="container">
+  <h1>Edit Your Post</h1>
+  <form method="POST" action="/pictures/<%= picture._id%>">
+    <input type="hidden" name="_method" value="PUT">
+      <div class="columns">
+        <div class="column is-half-desktop">
+          <div class="field">
+            <input type ="hidden" class="input" type="text" name="image" placeholder="Image Url" id="image-url">
+          </div>
+
+          <div class="field">
+            <label class="label" for="image">Image</label>
+            <div class="field">
+              <img class="img-preview" src="<%= picture.image %>" alt="image-preview">
+            </div>
+            <input class="button" type="BUTTON" value="Upload Image" id="image-btn" name="image" onclick="uploadImage()" value="<%= picture.image %>">
+          </div>
+
+
+          <script>
+          const imageUrl = document.getElementById('image-url');
+          const imagePreview = document.getElementsByClassName('img-preview')[0];
+          const imageBtn = document.getElementById('image-btn');
+
+          imageBtn.addEventListener('click', () => {
+            const client = filestack.init('Ad6X3pheT3e7XqLhKSYWAz');
+            client.pick({
+              accept: 'image/*',
+              maxFiles: 1,
+              transformations: { crop: { force: true, aspectRatio: 4/4  } }
+            })
+              .then(function(result) {
+                const url = result.filesUploaded[0].url;
+                imagePreview.style.display = "block";
+                imagePreview.src = url;
+                imageUrl.value = url;
+              });
+          });
+          </script>
+        </div>
+        <div class="column is-half-desktop">
+          <div class="field">
+            <label class="label" for="caption">Caption</label>
+            <textarea class="textarea" name="caption" rows="8" cols="80" placeholder="Caption (max 380 characters)" maxlength="380"><%= picture.caption %></textarea>
+          </div>
+
+          <div class="field">
+            <label class="label" for="location">Location</label>
+            <input class="input" type="text" name="location" placeholder="Location" value="<%= picture.location %>">
+          </div>
+          <div class="control">
+            <button class="button dark" name="button">Submit</button>
+          </div>
+        </div>
+      </div>
+  </form>
+</div>
