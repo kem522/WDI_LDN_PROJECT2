@@ -25,6 +25,6 @@ document.addEventListener('DOMContentLoaded', function () {
   $('form').validate();
 
   $('.followers').on('click', () => $('.followersList').toggle('hidden'));
-  $('.following').on('click', () => $('.followingsList').toggle('hidden'));
+  $('.following').on('click', () => $('.followingList').toggle('hidden'));
 
 });

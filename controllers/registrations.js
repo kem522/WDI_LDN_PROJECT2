@@ -6,7 +6,11 @@ function newRoute(req, res) {
 
 function createRoute(req, res, next) {
   User.create(req.body)
-    .then(() => res.redirect('/login'))
+    .then(user => {
+      req.session.userId = user._id;
+      req.flash('success', `Welcome ${user.username}!`);
+      res.redirect('/pictures');
+    })
     .catch(next);
 }
 
@@ -70,6 +74,11 @@ function followerShowRoute(req,res,next) {
       }
     })
     .then(user => {
+      user.followedUsersPics = user.followedUsersPics || [];
+      user.followedUsersPics = user.followedUsersPics.reduce((flattened, pics) => {
+        return flattened.concat(pics);
+      }, []);
+      // reduce, flatten and concatenate are being used to turn an array of both objects and arrays into a single array of objects
       res.render('followers/show', { user });
     })
     .catch(next);

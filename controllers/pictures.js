@@ -11,10 +11,11 @@ function newRoute(req,res) {
   res.render('pictures/new');
 }
 
-function createRoute(req,res) {
+function createRoute(req,res, next) {
   req.body.user = req.currentUser;
   Picture.create(req.body)
-    .then(() => res.redirect('/pictures'));
+    .then(() => res.redirect('/pictures'))
+    .catch(next);
 }
 
 function showRoute(req,res, next) {
