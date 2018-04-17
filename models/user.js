@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const uniqueValidator = require('mongoose-unique-validator');
 
 const followSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.ObjectId, ref: 'User'}
@@ -14,6 +15,8 @@ const schema = new mongoose.Schema({
   followedUsers: [ followSchema ],
   followers: [ followSchema ]
 });
+
+schema.plugin(uniqueValidator);
 
 schema
   .virtual('passwordConfirmation')
